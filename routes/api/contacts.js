@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import model from '../../model/index'
+import { createValidate, updateValidate, idValidate } from './validation'
+
 const router = new Router()
 
 router.get('/', async (req, res, next) => {
@@ -7,7 +9,7 @@ router.get('/', async (req, res, next) => {
   return res.status(200).json(contacts)
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', idValidate, async (req, res, next) => {
   const { id } = req.params
   const getContact = await model.getContactById(id)
   if (getContact) {
@@ -16,7 +18,7 @@ router.get('/:id', async (req, res, next) => {
   return res.status(404).json({ message: 'Not found' })
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', createValidate, async (req, res, next) => {
   if (req.body) {
     const newContact = await model.addContact(req.body)
     return res.status(201).json(newContact)
@@ -24,7 +26,7 @@ router.post('/', async (req, res, next) => {
   return res.status(400).json({ message: 'Missing required name field' })
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', idValidate, async (req, res, next) => {
   const { id } = req.params
   const delContact = await model.removeContact(id)
   if (delContact) {
@@ -33,7 +35,7 @@ router.delete('/:id', async (req, res, next) => {
   return res.status(404).json({ message: 'Not found' })
 })
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:id', idValidate, updateValidate, async (req, res, next) => {
   const { id } = req.params
   const contact = await model.updateContact(id, req.body)
   if (contact) {
