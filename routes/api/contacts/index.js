@@ -12,7 +12,7 @@ router.post('/', createValidate, addContact)
 
 router.delete('/:id', idValidate, removeContact)
 
-router.patch('/:id', idValidate, updateValidate, updateContact)
+router.put('/:id', idValidate, updateValidate, updateContact)
 
 router.patch('/:id/favorite', idValidate, updateValidateFavorite, updateContact)
 
