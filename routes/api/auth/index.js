@@ -1,14 +1,13 @@
 import { Router } from 'express'
-import { signUp, login, logout } from '../../../controllers/auth'
-
+import { signUp, login, logout, current } from '../../../controllers/auth'
+import guard from '../../../middlewares/guard'
+import validateSignup from './validation'
 
 const router = new Router()
 
-
-// router.post('/signup', createValidate, signUp)
-router.post('/signup', signUp)
-router.post('/login', login)
-router.post('/logout', logout)
-// router.post('/current', addContact)
+router.post('/signup', validateSignup, signUp)
+router.post('/login', validateSignup, login)
+router.post('/logout', guard, logout)
+router.post('/current', guard, current)
 
 export default router
