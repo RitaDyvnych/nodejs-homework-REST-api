@@ -56,7 +56,7 @@ const logout = async (req, res, next) => {
 }
 
 const current = async (req, res, next) => { 
-  const response = await {
+  const response = {
     'email': req.user.email,
     'subscription': req.user.subscription
   }
