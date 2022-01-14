@@ -11,3 +11,4 @@ export const HttpCode = {
   INTERNAL_SERVER_ERROR: 500,
 }
 
+export const CLOUD_FOLDER_AVATARS='NodeApi'
