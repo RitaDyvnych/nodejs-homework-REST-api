@@ -1,5 +1,6 @@
 import { HttpCode } from '../../libs/constants'
 import AuthService from '../../service/auth'
+import { EmailService, SenderSendgrid} from '../../service/email'
 
 const authService = new AuthService()
 
@@ -15,10 +16,22 @@ const signUp = async (req, res, next) => {
         message: 'Email in use'
       })
   }
-  const data = await authService.create(req.body) 
+  const userData = await authService.create(req.body) 
+  const emailService = new EmailService(
+      process.env.NODE_ENV,
+      new SenderSendgrid(),
+  )
+  
+  const isSend = await emailService.sendVerifyEmail(
+      email,
+      userData.name,
+      userData.verificationToken,
+    )
+  delete userData.verificationToken
+  
   return res
-    .status(HttpCode.OK)
-    .json({ status: 'success', code: HttpCode.OK, data })
+    .status(HttpCode.CREATED)
+    .json({ status: 'success', code: HttpCode.CREATED, data: {...userData, isSendEmailVerify: isSend} })
 }
 
 const login = async (req, res, next) => {
