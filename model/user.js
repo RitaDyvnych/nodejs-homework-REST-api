@@ -1,5 +1,5 @@
 import pkg from 'mongoose'
-import {randomUUID} from 'crypto'
+import { randomUUID } from 'crypto'
 import bcrypt from 'bcryptjs'
 import gravatar from 'gravatar'
 const { Schema, model } = pkg
@@ -47,7 +47,8 @@ const userSchema = new Schema(  {
     },
     verificationToken: {
       type: String,
-      default: randomUUID(),
+      required: [true, 'Verify token is required'],
+      default: function () { return randomUUID() },
     },
 },
 {
