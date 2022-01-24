@@ -13,7 +13,7 @@ class SenderNodemailer {
     const config = {
       host: "smtp.mail.me.com",
       port: 587,
-      secure: STARTTLS, // upgrade later with STARTTLS
+      secure: true, // upgrade later with STARTTLS
       auth: {  
         user: process.env.SENDER_NODEMAILER,
         pass: "password",
